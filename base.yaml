@@ -1,0 +1,10 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: base
+      vars:
+        ansible_user: orc
+        target_username: configurator
+        ssh_publickey_file: ~/.ssh/ansible_rsa.pub

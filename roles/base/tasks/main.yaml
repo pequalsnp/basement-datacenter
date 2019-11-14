@@ -1,0 +1,18 @@
+- name: Create user {{ target_username }}
+  become: yes
+  user:
+    name: "{{ target_username }}"
+- name: Set ssh key
+  become: yes
+  authorized_key:
+    user: "{{ target_username }}"
+    state: present
+    key: "{{ lookup('file', ssh_publickey_file) }}"
+- name: Allow {{ target_username }} to use sudo without a password
+  become: yes
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "{{ target_username }}"
+    line:  "{{target_username }} ALL=(ALL) NOPASSWD: ALL"
+    validate: visudo -cf %s        

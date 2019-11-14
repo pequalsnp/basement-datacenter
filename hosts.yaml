@@ -3,7 +3,7 @@ all:
     hendricks:
     beefeater:
     victoria:
-    random:
+    ransom:
   children:
     pis:
       hosts:
