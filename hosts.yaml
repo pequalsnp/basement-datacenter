@@ -1,0 +1,11 @@
+all:
+  hosts:
+    hendricks:
+    beefeater:
+    victoria:
+    random:
+  children:
+    pis:
+      hosts:
+        multitool:
+        spacedock: 
