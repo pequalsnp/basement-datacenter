@@ -1,5 +1,5 @@
 ---
 - hosts: hendricks
   tasks:
-    - include_role:
+    - import_role:
         name: wireguard

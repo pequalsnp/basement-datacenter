@@ -1,0 +1,24 @@
+---
+- name: Collect client private keys
+  become: yes
+  slurp:
+    src: /etc/wireguard/{{ item.name }}.privatekey 
+  loop: "{{ clients }}"
+  register: privatekeys
+- name: Collect server public key
+  become: yes
+  slurp:
+    src:  /etc/wireguard/{{ ansible_hostname }}.publickey
+  register: publickey
+- name: Write client configs
+  become: yes
+  template:
+    src: ../templates/client.conf
+    dest: /etc/wireguard/{{ item.item.name }}.conf
+  vars:
+    ip_addr: "{{ item.item.ip_addr}}"
+    private_key: "{{ item.content | b64decode }}"
+    server:
+      public_key: "{{ publickey.content | b64decode }}"
+      endpoint: "ayaandkyle.com:31337"
+  loop: "{{ privatekeys.results }}"    
