@@ -1,0 +1,14 @@
+- include_role:
+    name: has_apt_repo
+  vars:
+    name: wireguard
+    repo: deb http://deb.debian.org/debian/ unstable main
+    keyid: 04EE7237B7D453EC
+    keyserver: keyserver.ubuntu.com
+    filename_prefix: unstable
+- include_role:
+    name: has_apt_packages
+  vars:
+    packages:
+      - wireguard
+      

@@ -1,0 +1,5 @@
+- debug:
+    var: ansible_hostname
+- import_tasks: ./install.yaml
+- import_tasks: ./generatekeys.yaml
+- import_tasks: ./serverconfig.yaml

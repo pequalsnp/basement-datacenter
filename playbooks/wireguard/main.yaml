@@ -1,0 +1,5 @@
+---
+- hosts: hendricks
+  tasks:
+    - include_role:
+        name: wireguard

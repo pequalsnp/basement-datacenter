@@ -1,0 +1,32 @@
+---
+- name: Collect client public keys
+  become: yes
+  slurp:
+    src: /etc/wireguard/{{ item.name }}.publickey 
+  loop: "{{ clients }}"
+  register: publickeys
+- name: Collect server private key
+  become: yes
+  slurp:
+    src:  /etc/wireguard/{{ ansible_hostname }}.privatekey
+  register: privatekey  
+- name: Write server config
+  become: yes
+  template:
+    dest: /etc/wireguard/wg0.conf
+    src: ../templates/wg-server.conf
+  vars:
+    private_key: "{{ privatekey.content | b64decode }}"
+    listen_port: '31337'
+    ip_range: 10.0.0.1/24
+    interface_name: enp8s0
+  register: server_config
+- name: Ensure wireguard service is enabled to start at boot
+  service:
+    name: wg-quick@wg0
+    enabled: yes    
+- name: Restart wireguard
+  service:
+    name: wg-quick@wg0
+    state: restarted
+  when: server_config is changed      

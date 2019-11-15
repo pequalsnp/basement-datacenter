@@ -1,0 +1,15 @@
+---
+clients:
+  - name: kyleiphone
+    ip_addr: 10.0.0.10
+  - name: kyleipad
+    ip_addr: 10.0.0.11
+  - name: kyleworkmacbook
+    ip_addr: 10.0.0.12
+  - name: ayaipad
+    ip_addr: 10.0.0.13
+  - name: ayamacbook
+    ip_addr: 10.0.0.14
+  - name: ayaiphone
+    ip_addr: 10.0.0.15    
+wg_dir: /etc/wireguard

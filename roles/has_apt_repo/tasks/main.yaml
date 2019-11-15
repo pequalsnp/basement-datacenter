@@ -1,0 +1,16 @@
+- name: Add the apt key for {{ name }}
+  become: yes
+  apt_key:
+    id: "{{ keyid }}"
+    keyserver: "{{ keyserver }}"
+    state: present
+- name: Add repo for {{ name }}
+  become: yes 
+  apt_repository:
+    repo: "{{repo}}"
+    state: present
+    filename: "{{ filename_prefix }}"
+- name: Update apt cache
+  become: yes
+  apt:
+    update_cache: yes

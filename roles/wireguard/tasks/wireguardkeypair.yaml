@@ -1,0 +1,28 @@
+- name: Generate key pair for {{name}}
+  become: yes
+  command: /usr/bin/wg genkey
+  args:
+    chdir: "{{wg_dir}}"
+    creates: "{{name}}.privatekey"
+  register: genkey_output 
+- name: Write private key to file
+  become: yes
+  copy:
+    content: "{{ genkey_output.stdout }}"
+    dest: "{{ wg_dir }}/{{name}}.privatekey"
+  when: genkey_output is changed
+- name: Generate public key from private key
+  become: yes
+  command: /usr/bin/wg pubkey
+  args:
+    chdir: "{{ wg_dir }}"
+    stdin: "{{ genkey_output.stdout }}"
+  register: publickey_output
+  when: genkey_output is changed
+- name: Write public key to file
+  become: yes
+  copy:
+    force: yes
+    content: "{{ publickey_output.stdout }}"
+    dest: "{{ wg_dir }}/{{name}}.publickey"
+  when: publickey_output is changed         

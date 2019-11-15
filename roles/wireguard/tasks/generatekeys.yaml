@@ -1,0 +1,9 @@
+- name: Create server key pair for {{ ansible_hostname }}
+  include_tasks: ./wireguardkeypair.yaml
+  vars:
+    name: "{{ ansible_hostname }} "
+- name: Create client key pairs
+  include_tasks: ./wireguardkeypair.yaml
+  vars:
+    name: "{{ item.name }} "
+  loop: "{{ clients }}"
