@@ -1,0 +1,12 @@
+---
+- hosts: hendricks
+  tasks:
+    - name: Install required packages
+      include_role:
+        name: has_apt_packages
+      vars:
+        packages:
+          - python3-boto
+    - name: Update Route53 DNS with current IP
+      import_role:
+        name: ddns
